@@ -27,7 +27,6 @@ export class AppComponent implements OnInit {
   }
 
   onScroll(event: Event): void {
-    // Use currentTarget instead of target - currentTarget is the element with the event listener
     const scrollElement = (event.currentTarget || event.target) as HTMLElement;
     
     if (!scrollElement) {
@@ -39,32 +38,15 @@ export class AppComponent implements OnInit {
     const clientHeight = scrollElement.clientHeight;
     const scrollHeight = scrollElement.scrollHeight;
     
-    console.log('Scroll event triggered:', {
-      scrollTop,
-      clientHeight,
-      scrollHeight,
-      scrollBottom: scrollTop + clientHeight,
-      distanceFromBottom: scrollHeight - (scrollTop + clientHeight),
-      hasMore: this.hasMore,
-      isLoading: this.isLoading
-    });
-    
-    // Show/hide scroll to top button based on scroll position
-    this.showScrollTop = scrollTop > 40;
+    this.showScrollTop = scrollTop > 50;
     
     const nearBottom = scrollTop + clientHeight >= scrollHeight - 80;
     
-    console.log('Near bottom check:', {
-      nearBottom,
-      condition: `${scrollTop} + ${clientHeight} >= ${scrollHeight} - 80`,
-      result: nearBottom
-    });
 
     if (nearBottom && this.hasMore && !this.isLoading) {
-      console.log('Triggering API call - fetching more customers from index:', this.customers.length);
       this.fetchCustomers(this.customers.length);
     } else {
-      console.log('API call NOT triggered. Reasons:', {
+      console.error('API call NOT triggered. Reasons:', {
         nearBottom,
         hasMore: this.hasMore,
         isLoading: this.isLoading
@@ -80,7 +62,6 @@ export class AppComponent implements OnInit {
   }
 
   private loadCustomerData(): void {
-    console.log("loadCustomerData");
     this.dataservicesService.loadCustomerData().subscribe({
       next: () => {
         this.fetchCustomers(0);
@@ -89,26 +70,16 @@ export class AppComponent implements OnInit {
   }
 
   private fetchCustomers(start: number): void {
-    console.log('fetchCustomers called with start:', start);
     this.isLoading = true;
     this.errorMessage = '';
 
     this.dataservicesService.getCustomerData(start, this.loadData).subscribe({
       next: (response) => {
-        console.log('API response received:', {
-          dataCount: response.data?.length || 0,
-          hasMore: response.hasMore,
-          totalCustomers: this.customers.length + (response.data?.length || 0)
-        });
         this.customers = [...this.customers, ...response.data];
         if(this.displayedColumns.length === 0){
           this.syncColumns(response.data);
         }
         this.hasMore = response.hasMore;
-        console.log('Updated state:', {
-          totalCustomers: this.customers.length,
-          hasMore: this.hasMore
-        });
       },
       error: (error) => {
         console.error('Failed to load customers', error);
@@ -119,8 +90,7 @@ export class AppComponent implements OnInit {
         });
         this.errorMessage = 'Unable to load customers. Please try again.';
       },
-      complete: () => {
-        console.log('API call completed');
+      complete: () => { 
         this.isLoading = false;
       }
     });
