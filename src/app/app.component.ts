@@ -38,10 +38,10 @@ export class AppComponent implements OnInit {
     const clientHeight = scrollElement.clientHeight;
     const scrollHeight = scrollElement.scrollHeight;
     
-    this.showScrollTop = scrollTop > 50;
+    const shouldShowScrollTop = scrollTop > 40 && this.customers.length > 35;
+    this.showScrollTop = shouldShowScrollTop;
     
     const nearBottom = scrollTop + clientHeight >= scrollHeight - 80;
-    
 
     if (nearBottom && this.hasMore && !this.isLoading) {
       this.fetchCustomers(this.customers.length);
@@ -82,7 +82,6 @@ export class AppComponent implements OnInit {
         this.hasMore = response.hasMore;
       },
       error: (error) => {
-        console.error('Failed to load customers', error);
         console.error('Error details:', {
           message: error.message,
           status: error.status,
@@ -90,7 +89,7 @@ export class AppComponent implements OnInit {
         });
         this.errorMessage = 'Unable to load customers. Please try again.';
       },
-      complete: () => { 
+      complete: () => {
         this.isLoading = false;
       }
     });
