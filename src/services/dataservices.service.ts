@@ -16,7 +16,7 @@ export interface CustomerResponse {
   providedIn: 'root'
 })
 export class DataservicesService {
-  private readonly baseUrl = 'http://localhost:3000';
+  private readonly baseUrl = 'https://digival-api.onrender.com';
 
   constructor(private http: HttpClient) {}
 
