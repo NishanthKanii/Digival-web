@@ -45,12 +45,6 @@ export class AppComponent implements OnInit {
 
     if (nearBottom && this.hasMore && !this.isLoading) {
       this.fetchCustomers(this.customers.length);
-    } else {
-      console.error('API call NOT triggered. Reasons:', {
-        nearBottom,
-        hasMore: this.hasMore,
-        isLoading: this.isLoading
-      });
     }
   }
 
