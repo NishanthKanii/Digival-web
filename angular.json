@@ -52,6 +52,10 @@
             },
             "github-pages": {
               "baseHref": "/Digiva/",
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractLicenses": true,
               "budgets": [
                 {
                   "type": "initial",
@@ -63,8 +67,7 @@
                   "maximumWarning": "2kb",
                   "maximumError": "4kb"
                 }
-              ],
-              "outputHashing": "all"
+              ]
             },
             "development": {
               "optimization": false,

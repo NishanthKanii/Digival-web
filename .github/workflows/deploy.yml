@@ -33,7 +33,14 @@ jobs:
         run: npm ci
 
       - name: Build Angular app
-        run: npm run build:prod -- --base-href /Digiva/
+        run: npm run build -- --configuration github-pages
+
+      - name: Verify build output
+        run: |
+          echo "Checking build output..."
+          ls -la ./dist/web/browser/ || echo "Build output not found!"
+          echo "Checking for index.html..."
+          ls -la ./dist/web/browser/index.html || echo "index.html not found!"
 
       - name: Create .nojekyll file
         run: echo '' > ./dist/web/browser/.nojekyll
