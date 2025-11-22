@@ -37,10 +37,29 @@ jobs:
 
       - name: Verify build output
         run: |
-          echo "Checking build output..."
+          echo "=== Checking build output ==="
           ls -la ./dist/web/browser/ || echo "Build output not found!"
-          echo "Checking for index.html..."
+          echo ""
+          echo "=== Checking for index.html ==="
           ls -la ./dist/web/browser/index.html || echo "index.html not found!"
+          echo ""
+          echo "=== Contents of index.html (first 50 lines) ==="
+          head -50 ./dist/web/browser/index.html || echo "Cannot read index.html"
+          echo ""
+          echo "=== Checking index.html base href ==="
+          grep -i "base href" ./dist/web/browser/index.html || echo "No base href found in index.html!"
+          echo ""
+          echo "=== Checking for script tags in index.html ==="
+          grep -i "<script" ./dist/web/browser/index.html | head -5 || echo "No script tags found!"
+          echo ""
+          echo "=== Listing all files in browser directory ==="
+          find ./dist/web/browser -type f | head -30
+          echo ""
+          echo "=== Checking for JS files ==="
+          ls -la ./dist/web/browser/*.js 2>/dev/null | head -10 || echo "No JS files found!"
+          echo ""
+          echo "=== Checking for CSS files ==="
+          ls -la ./dist/web/browser/*.css 2>/dev/null | head -10 || echo "No CSS files found!"
 
       - name: Create .nojekyll file
         run: echo '' > ./dist/web/browser/.nojekyll
