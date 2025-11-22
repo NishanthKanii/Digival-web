@@ -46,7 +46,7 @@
               "outputHashing": "all"
             },
             "github-pages": {
-              "baseHref": "/Digiva/",
+              "baseHref": "/Digival-web/",
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
